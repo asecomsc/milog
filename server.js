@@ -1,22 +1,31 @@
 var express = require('express');
-var app = express();
-var port = process.env.PORT || 80;
+var bodyParser = require("body-parser");
+var app = express();   // crud = create, read, update, delete
 var mysql = require('mysql');
 var portMySQL = process.env.WEBSITE_MYSQL_PORT;
+var port = process.env.PORT || 80;
 
-app.get('/', function (req, res) {
-  res.send('route root ok..');
-});
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-app.get('/mysql',function (req, res) {
-var connection = mysql.createConnection({host:'localhost',user:'azure',password:'password',database:'azuredb',port:portMySQL});
-connection.connect();
-    connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
-      if (err) throw err;
-      console.log('The solution is: ', rows[0].solution);
-    });
-connection.end();
-res.send('route log working..');
+app.get('/', function (req, res) {res.sendFile( __dirname + "/" + "default.html");});
+
+app.post('/create', function (req, res) {
+var con = mysql.createConnection({host:'localhost',user:'azure',password:'password',database:'azuredb',port:portMySQL});
+mib = req.body.miBot;
+did = req.body.diaId;
+sta = req.body.stamp;
+	if (mib == 'room') { yson = { diaId: did, room: sta } };
+	if (mib == 'sleep') { yson = [{sleep:sta},{diaId:did}] };
+	if (mib == 'seat') { yson = [{seat:sta},{diaId:did}] };
+	con.connect();
+			if (mib == 'room') {
+					con.query('INSERT INTO log SET ?', yson, function(err,res) { if (err) throw err; });
+			} else {
+					con.query('UPDATE log SET ? WHERE ?', yson, function(err,res) { if (err) throw err; });						
+			}		
+	con.end();	
+	res.end();
 });
 
 app.listen(port, function () {
