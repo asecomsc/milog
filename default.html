@@ -16,13 +16,13 @@
 			hoy = fecha();
 			switch($(this).html().toLowerCase()){
 				case "room":			
-				  $.post("http://localhost/create", {diaId:ayer.toMysqlFormat().slice(0,10), stamp:hoy.toMysqlFormat(), miBot:'room'}, function(data){});
+				  $.post("http://milog.azurewebsites.net/create", {diaId:ayer.toMysqlFormat().slice(0,10), stamp:hoy.toMysqlFormat(), miBot:'room'}, function(data){});
 				break;
 				case "sleep":
-				  $.post("http://localhost/create", {diaId:ayer.toMysqlFormat().slice(0,10), stamp:hoy.toMysqlFormat(), miBot:'sleep'}, function(data){});
+				  $.post("http://milog.azurewebsites.net/create", {diaId:ayer.toMysqlFormat().slice(0,10), stamp:hoy.toMysqlFormat(), miBot:'sleep'}, function(data){});
 				break;
 				case "seat":
-				  $.post("http://localhost/create", {diaId:ayer.toMysqlFormat().slice(0,10), stamp:hoy.toMysqlFormat(), miBot:'seat'}, function(data){});
+				  $.post("http://milog.azurewebsites.net/create", {diaId:ayer.toMysqlFormat().slice(0,10), stamp:hoy.toMysqlFormat(), miBot:'seat'}, function(data){});
 				break;
 			}
         });
