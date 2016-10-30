@@ -13,10 +13,12 @@ var con = mysql.createConnection({host:'localhost',user:'azure',password:'passwo
 	con.connect();
 			con.query('SELECT * FROM log', function(err,rows){
 				if (err) throw err;
-				console.log(rows);
+				//console.log(rows); imprime el objJS-rows, el cual es casi ilegible
+				//console.log(JSON.stringify(rows)); se imprime muy clara ya que es tipo string
+				res.end(JSON.stringify(rows)); //regresa a la pag en formato JSON				
 			});
 	con.end();
-	res.end();
+	
 });	
 
 app.get('/', function (req, res) {res.sendFile( __dirname + "/" + "default.html");});
