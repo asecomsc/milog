@@ -8,6 +8,17 @@ var port = process.env.PORT || 80;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.get('/list', function (req, res) {
+var con = mysql.createConnection({host:'localhost',user:'azure',password:'password',database:'azuredb',port:portMySQL});
+	con.connect();
+			con.query('SELECT * FROM log', function(err,rows){
+				if (err) throw err;
+				console.log(rows);
+			});
+	con.end();
+	res.end();
+});	
+
 app.get('/', function (req, res) {res.sendFile( __dirname + "/" + "default.html");});
 
 app.post('/create', function (req, res) {
@@ -24,6 +35,7 @@ sta = req.body.stamp;
 			} else {
 					con.query('UPDATE log SET ? WHERE ?', yson, function(err,res) { if (err) throw err; });						
 			}		
+
 	con.end();	
 	res.end();
 });
