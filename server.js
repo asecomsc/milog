@@ -4,18 +4,17 @@ var app = express();   // crud = create, read, update, delete
 var mysql = require('mysql');
 var portMySQL = process.env.WEBSITE_MYSQL_PORT;
 var port = process.env.PORT || 80;
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.set('view engine', 'pug');
 
 app.get('/list', function (req, res) {
 var con = mysql.createConnection({host:'localhost',user:'azure',password:'password',database:'azuredb',port:portMySQL});
 	con.connect();
 			con.query('SELECT * FROM log', function(err,rows){
 				if (err) throw err;
-				//console.log(rows); imprime el objJS-rows, el cual es casi ilegible
-				//console.log(JSON.stringify(rows)); se imprime muy clara ya que es tipo string
-				res.end(JSON.stringify(rows)); //regresa a la pag en formato JSON				
+				res.render('repo1', {titulo: "Reporte Cronologico", misRen: rows});
 			});
 	con.end();
 	

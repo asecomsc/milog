@@ -1,0 +1,6 @@
+html
+  body
+    h1= titulo
+    ul
+      each ren in misRen
+        li= ren.diaId.toLocaleDateString().slice(5,10)
